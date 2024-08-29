@@ -1,0 +1,31 @@
+:root {
+    --bg-dark: #2D3250;
+    --bg-secondary: #424769;
+    --text-white: #fefefe;
+}
+
+#app {
+    width: 1280px;
+    height: 600px;
+    background-color: var(--bg-dark);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+}
+
+#logo {
+    padding: 1rem;
+    width: 25px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-dark);
+}
+
+.flex {
+    display: flex;
+}
+
+.rounded-full {
+    border-radius: 9999999%;
+}

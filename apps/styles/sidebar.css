@@ -1,0 +1,9 @@
+#sidebar {
+    color: var(--text-white);
+    background-color: var(--bg-secondary);
+    width: 200px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
