@@ -1,9 +1,40 @@
 #sidebar {
     color: var(--text-white);
     background-color: var(--bg-secondary);
-    width: 200px;
+    width: 120px;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    height: var(--app-height);
+    overflow: hidden;
+}
+
+/* Nav */
+#sidebar > #tools-nav > ul, #sidebar > #actions-nav > ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    row-gap: 8px;
+    column-gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#sidebar > #tools-nav > ul > li, #sidebar > #actions-nav > ul > li {
+    list-style: none;
+}
+
+/* Nav Buttons */
+#sidebar > #tools-nav > ul > li > button, #sidebar > #actions-nav > ul > li > button, #actions-nav > button {
+    list-style: none;
+    width: 100%;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 6px 12px 6px;
 }

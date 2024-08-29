@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSGN</title>
-    <link rel="stylesheet" href="styles/app.css">  
-    <link rel="stylesheet" href="styles/sidebar.css">   
-</head>
-<body>
-    <main id="app">
-        <!-- Left Sidebar -->
-        <section id="sidebar">
-            <!-- LOGO -->
-            <div id="logo" class="flex rounded-full">
-                DSGN
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DSGN</title>
+        <link rel="stylesheet" href="styles/app.css">  
+        <link rel="stylesheet" href="styles/sidebar.css">   
+
+        <script src="scripts/canvas.js"></script>
+    </head>
+    <body>
+        <main id="app">
+            <!-- Left Sidebar -->
+            <section id="sidebar">
+                <!-- LOGO -->
+                <div id="logo" class="flex rounded-full">
+                    DSGN
+                </div>
+
+                <!-- Tools -->
+                <nav id="tools-nav">
+                    <ul>
+                        <li><button>brush</button></li>
+                        <li><button>bucket</button></li>
+                        <li><button>eraser</button></li>
+                        <li><button>text</button></li>
+                        <li><button>move</button></li>
+                        <li><button>stamp</button></li>
+                        <li><button>picker</button></li>
+                        <li><button>shape</button></li>
+                    </ul>
+                </nav>
+
+                <!-- Actions -->
+                <nav id="actions-nav">
+                    <button>paste</button>
+                    <ul>
+                        <li><button>undo</button></li>
+                        <li><button>redo</button></li>
+                        <li><button>- zoom</button></li>
+                        <li><button>+ zoom</button></li>
+                        <li><button>import</button></li>
+                        <li><button>export</button></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <div class="">
+                <!-- Main Canvas -->
+                <canvas id="main-canvas" width="300px" height="300px" style="background-color: white;">
+                    
+                </canvas>
             </div>
-        </section>
-    </main>
-</body>
+        </main>
+    </body>
 </html>
