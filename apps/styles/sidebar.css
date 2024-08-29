@@ -38,3 +38,7 @@
     border-radius: 8px;
     padding: 12px 6px 12px 6px;
 }
+
+.tool-active {
+    background-color: var(--bg-accent) !important;
+}
