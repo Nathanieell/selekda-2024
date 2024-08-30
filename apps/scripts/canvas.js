@@ -1,6 +1,7 @@
 window.CanvasController = class CanvasController {
-    constructor(canvas) {
+    constructor(canvas, layerContainer) {
         this.canvas = canvas;
+        this.layerContainer = layerContainer;
         this.ctx = canvas.getContext('2d');
         this.isDrawing = false;
         this.selectedShape = "circle";
@@ -12,10 +13,14 @@ window.CanvasController = class CanvasController {
         this.listenOnMouseDown();
         this.listenOnMouseMove();
         this.listenOnMouseUp();
+        this.listenOnLayerDrag();
     }
 
     redraw() {
+        // Clear canvas context
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "white";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         for (const layer of this.layers) {
             switch (layer.type) {
@@ -43,9 +48,30 @@ window.CanvasController = class CanvasController {
                     this.ctx.stroke();
                     break;
                 }
+
+                case "image": {
+                    this.ctx.drawImage(layer.image, 0, 0);
+                    break;
+                }
             }
         }
+
+        // Layer list render
+        const layerList = document.getElementById("layer-container");
+        layerList.innerHTML = "";
+        this.layers.forEach((layer, index) => {
+            const layerElement = document.createElement("li");
+            layerElement.draggable  = true;
+            layerElement.id = `layer-${index}`;
+            layerElement.textContent = `Layer ${index + 1} - ${layer.type}`;
+            layerElement.addEventListener("click", () => {
+                this.layers.splice(index, 1);
+                this.redraw();
+            });
+            layerList.appendChild(layerElement);
+        });
     }
+
     draw() {
         this.redraw();
         if (!this.isDrawing) return;
@@ -128,6 +154,66 @@ window.CanvasController = class CanvasController {
             }
 
             this.draw();
+        });
+    }
+
+    listenOnLayerDrag() {
+        this.layerContainer.addEventListener("dragstart", (e) => {
+            const layerElement = e.target;
+            layerElement.classList.add("dragging");
+        });
+
+        this.layerContainer.addEventListener("dragend", (e) => {
+            const layerElement = e.target;
+            layerElement.classList.remove("dragging");
+            console.log("[CanvasController] result", [...this.layerContainer.children].map(x => x.id));
+            const layers = [...this.layerContainer.children].map(el => parseInt(el.id.split("-")[1]));
+            
+            // reorder layers based on new layers order
+            this.layers = layers.map(index => this.layers[index]);
+
+            console.log("[CanvasController] Reordered layers", this.layers);
+
+            this.redraw();
+        });
+
+        this.layerContainer.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(this.layerContainer, e.clientY);
+            const draggingElement = this.layerContainer.querySelector(".dragging");
+
+            if (afterElement == null) {
+                this.layerContainer.appendChild(draggingElement);
+            } else {
+                this.layerContainer.insertBefore(draggingElement, afterElement);
+            }
+        });
+    }
+
+    pasteImage() {
+        navigator.clipboard.read().then((data) => {
+            console.log("[CanvasController] Pasting", { data });
+            for (const item of data) {
+                for (const type of item.types) {
+                    if (type === "image/png") {
+                        console.log("[CanvasController] Pasting image");
+                        item.getType(type).then(blob => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(blob);
+                            reader.onload = () => {
+                                console.log("[CanvasController] Pasting image", { result: reader.result });
+                                const image = new Image();
+                                image.src = reader.result;
+                                image.onload = () => {
+                                    this.layers.push({ type: "image", image });
+                                    this.redraw();
+                                };
+                            };
+                        });
+                        
+                    }
+                }
+            }
         });
     }
 }
